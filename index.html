@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>DNA do Investidor – Descubra seu jeito de lidar com dinheiro</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+    :root {
+        --roxo-escuro: #2b1f5f;
+        --roxo: #5c3df2;
+        --roxo-claro: #b49bff;
+        --verde: #00c896;
+        --rosa: #ff6b9c;
+        --amarelo: #ffd66b;
+        --cinza-fundo: #0f1220;
+        --cinza-card: #181b2d;
+        --cinza-borda: #30334a;
+        --texto-claro: #f5f5ff;
+        --texto-suave: #c0c2d8;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        background: radial-gradient(circle at top left, #2b1f5f, #0b0d16 55%, #05050a);
+        color: var(--texto-claro);
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+    }
+
+    header {
+        padding: 26px 18px 12px;
+        text-align: center;
+    }
+
+    header h1 {
+        margin: 0 0 8px;
+        font-size: 2rem;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+    }
+
+    header p {
+        margin: 0 auto;
+        max-width: 520px;
+        font-size: 0.96rem;
+        color: var(--texto-suave);
+    }
+
+    .glow {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        opacity: 0.3;
+        filter: blur(40px);
+        z-index: -1;
+        background:
+          radial-gradient(circle at 10% 10%, #5c3df2 0, transparent 50%),
+          radial-gradient(circle at 90% 80%, #ff6b9c 0, transparent 55%),
+          radial-gradient(circle at 20% 80%, #00c896 0, transparent 50%);
+    }
+
+    .wrapper {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        padding: 10px 10px 30px;
+    }
+
+    .container {
+        position: relative;
+        max-width: 960px;
+        width: 100%;
+        background: linear-gradient(135deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+        border-radius: 22px;
+        border: 1px solid rgba(255,255,255,0.08);
+        box-shadow: 0 22px 55px rgba(0,0,0,0.65);
+        padding: 22px 16px 24px;
+        backdrop-filter: blur(16px);
+        overflow: hidden;
+    }
+
+    .pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 4px 10px;
+        border-radius: 999px;
+        border: 1px solid rgba(255,255,255,0.18);
+        font-size: 0.78rem;
+        color: var(--texto-suave);
+        background: linear-gradient(90deg, rgba(92,61,242,0.24), rgba(255,107,156,0.18));
+        margin-bottom: 10px;
+    }
+
+    .pill-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--verde);
+    }
+
+    .intro {
+        margin-bottom: 16px;
+        font-size: 0.93rem;
+        color: var(--texto-suave);
+        max-width: 620px;
+    }
+
+    .actions-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+
+    .btn-primary {
+        background: linear-gradient(135deg, #ff6b9c, #ffd66b);
+        color: #140c2b;
+        padding: 11px 22px;
+        border: none;
+        border-radius: 999px;
+        cursor: pointer;
+        font-size: 0.96rem;
+        font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+        transform: translateY(0);
+        transition: transform 0.15s ease-out, box-shadow 0.15s ease-out, filter 0.15s;
+    }
+
+    .btn-primary:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 16px 34px rgba(0,0,0,0.55);
+        filter: brightness(1.05);
+    }
+
+    .btn-secondary {
+        background: transparent;
+        color: var(--texto-suave);
+        border: 1px solid rgba(255,255,255,0.22);
+        padding: 8px 16px;
+        border-radius: 999px;
+        cursor: pointer;
+        font-size: 0.84rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        transition: background 0.15s, color 0.15s, border-color 0.15s;
+    }
+
+    .btn-secondary:hover {
+        background: rgba(255,255,255,0.08);
+        color: #ffffff;
+        border-color: rgba(255,255,255,0.4);
+    }
+
+    #quizSection {
+        margin-top: 14px;
+    }
+
+    .top-row {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        align-items: center;
+        margin-bottom: 8px;
+    }
+
+    .step-label {
+        font-size: 0.84rem;
+        color: var(--texto-suave);
+    }
+
+    .step-hint {
+        font-size: 0.78rem;
+        color: var(--texto-suave);
+        opacity: 0.85;
+        text-align: right;
+    }
+
+    .progress {
+        width: 100%;
+        background: rgba(255,255,255,0.06);
+        border-radius: 999px;
+        height: 8px;
+        overflow: hidden;
+        margin-bottom: 14px;
+    }
+
+    .progress-fill {
+        height: 100%;
+        width: 0%;
+        background: linear-gradient(90deg, #5c3df2, #ff6b9c, #ffd66b);
+        transition: width 0.3s ease-out;
+    }
+
+    .question-card {
+        margin-top: 10px;
+        padding: 16px 14px 14px;
+        border-radius: 18px;
+        background: radial-gradient(circle at top left, rgba(92,61,242,0.32), rgba(24,27,45,0.9));
+        border: 1px solid rgba(255,255,255,0.14);
+        min-height: 130px;
+    }
+
+    .question-tag {
+        font-size: 0.72rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--roxo-claro);
+        margin-bottom: 6px;
+    }
+
+    .question-card p {
+        margin-top: 0;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: #ffffff;
+        font-size: 0.98rem;
+    }
+
+    .question-card label {
+        display: block;
+        margin-bottom: 6px;
+        font-size: 0.9rem;
+        cursor: pointer;
+        color: var(--texto-suave);
+    }
+
+    .question-card input[type="radio"] {
+        margin-right: 6px;
+        accent-color: #ffd66b;
+    }
+
+    .nav-buttons {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        margin-top: 16px;
+    }
+
+    .nav-buttons-right {
+        margin-left: auto;
+        display: flex;
+        gap: 10px;
+    }
+
+    .hidden {
+        display: none;
+    }
+
+    #resultado {
+        margin-top: 24px;
+        padding: 18px 14px;
+        border-radius: 18px;
+        background: linear-gradient(135deg, rgba(92,61,242,0.18), rgba(0,200,150,0.1));
+        border: 1px solid rgba(255,255,255,0.18);
+    }
+
+    #resultado h2 {
+        margin-top: 4px;
+        margin-bottom: 4px;
+        font-size: 1.2rem;
+    }
+
+    .perfil-tag {
+        font-size: 0.78rem;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        color: var(--roxo-claro);
+        margin-bottom: 4px;
+    }
+
+    .resumo {
+        font-size: 0.92rem;
+        color: var(--texto-suave);
+    }
+
+    #resultado h3 {
+        margin-bottom: 6px;
+        margin-top: 14px;
+        font-size: 0.98rem;
+    }
+
+    .bulletinho {
+        margin-top: 6px;
+        padding-left: 18px;
+        font-size: 0.9rem;
+        color: var(--texto-suave);
+    }
+
+    .email-block {
+        margin-top: 16px;
+        padding: 14px 12px;
+        border-radius: 16px;
+        background: rgba(9,11,24,0.85);
+        border: 1px dashed rgba(255,255,255,0.22);
+    }
+
+    .email-block p {
+        margin-top: 0;
+        font-size: 0.9rem;
+        color: var(--texto-suave);
+    }
+
+    .email-row {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-top: 10px;
+    }
+
+    .email-row label {
+        font-size: 0.78rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--texto-suave);
+    }
+
+    .email-row input {
+        padding: 9px 10px;
+        border-radius: 10px;
+        border: 1px solid var(--cinza-borda);
+        font-size: 0.88rem;
+        background: #070814;
+        color: var(--texto-claro);
+    }
+
+    .email-row input::placeholder {
+        color: #585c76;
+    }
+
+    .email-row button {
+        margin-top: 4px;
+        width: 100%;
+        justify-content: center;
+    }
+
+    .email-hint {
+        font-size: 0.78rem;
+        color: var(--texto-suave);
+        margin-top: 6px;
+    }
+
+    .ok-message {
+        font-size: 0.82rem;
+        color: #47e39e;
+        margin-top: 8px;
+        display: none;
+    }
+
+    footer {
+        text-align: center;
+        font-size: 0.76rem;
+        color: var(--texto-suave);
+        padding: 4px 10px 14px;
+        opacity: 0.9;
+    }
+
+    @media (min-width: 720px) {
+        header h1 { font-size: 2.2rem; }
+        .container { padding-inline: 26px; }
+        .email-row {
+            flex-direction: row;
+            align-items: flex-end;
+        }
+        .email-row > div {
+            flex: 1;
+        }
+        .email-row button {
+            flex: 0 0 auto;
+            width: auto;
+        }
+    }
+</style>
+</head>
+
+<body>
+<div class="glow"></div>
+
+<header>
+    <h1>DNA do Investidor</h1>
+    <p>Um teste rápido, mas profundo, pra entender como você reage ao risco, à perda e às oportunidades antes de falar em “produto financeiro”.</p>
+</header>
+
+<div class="wrapper">
+  <div class="container">
+      <span class="pill">
+          <span class="pill-dot"></span>
+          leva menos de 3 minutos • resultado direto ao ponto
+      </span>
+
+      <p class="intro">
+          A ideia aqui não é descobrir se você é “certo ou errado”, e sim qual é o
+          <strong>seu jeito real de lidar com dinheiro</strong>. Isso evita duas armadilhas clássicas:
+          carteira ousada pra quem não dorme com volatilidade, ou carteira conservadora demais
+          pra quem poderia estar construindo muito mais patrimônio.
+      </p>
+
+      <div class="actions-row">
+          <button class="btn-primary" id="startBtn">
+              Começar agora
+              <span>→</span>
+          </button>
+          <button class="btn-secondary" type="button" onclick="window.scrollTo({top: document.body.scrollHeight, behavior:'smooth'})">
+              Ver aviso importante no final
+          </button>
+      </div>
+
+      <div id="quizSection" class="hidden">
+          <div class="top-row">
+              <span class="step-label" id="stepLabel">Pergunta 1 de 10</span>
+              <span class="step-hint" id="stepHint">Responda como você é hoje, não como gostaria de ser.</span>
+          </div>
+
+          <div class="progress">
+              <div class="progress-fill" id="progressFill"></div>
+          </div>
+
+          <form id="testeForm">
+              <!-- 10 PERGUNTAS, UMA POR VEZ -->
+              <div class="question-card" data-index="0">
+                  <div class="question-tag">campo financeiro</div>
+                  <p>1. Quando você pensa na relação entre dinheiro e liberdade, o que vem primeiro?</p>
+                  <label><input type="radio" name="q1" value="D"> Ter tanto patrimônio que eu possa arriscar sem medo.</label>
+                  <label><input type="radio" name="q1" value="I"> Poder aproveitar oportunidades sem ficar travado pelo medo.</label>
+                  <label><input type="radio" name="q1" value="S"> Ter segurança para não depender de ninguém.</label>
+                  <label><input type="radio" name="q1" value="C"> Garantir que nada de ruim me pegue de surpresa.</label>
+              </div>
+
+              <div class="question-card hidden" data-index="1">
+                  <div class="question-tag">reação à perda</div>
+                  <p>2. Você já teve uma perda grande em investimentos ou negócios? Como isso te marcou?</p>
+                  <label><input type="radio" name="q2" value="D"> Sim, e isso me deixou ainda mais frio e estratégico com risco.</label>
+                  <label><input type="radio" name="q2" value="I"> Sim, doeu, mas ainda assim continuo topando arriscar.</label>
+                  <label><input type="radio" name="q2" value="S"> Sim, desde então fiquei bem mais cauteloso(a).</label>
+                  <label><input type="radio" name="q2" value="C"> Sim, e desde então evito quase tudo que possa oscilar.</label>
+              </div>
+
+              <div class="question-card hidden" data-index="2">
+                  <div class="question-tag">volatilidade</div>
+                  <p>3. Imagine sua carteira caindo 20% em um ano. O que é mais provável?</p>
+                  <label><input type="radio" name="q3" value="D"> Vejo como parte do jogo e penso em aproveitar para reforçar posições.</label>
+                  <label><input type="radio" name="q3" value="I"> Fico bem desconfortável, mas consigo manter a estratégia.</label>
+                  <label><input type="radio" name="q3" value="S"> Fico muito mal e começo a rever tudo com pressa.</label>
+                  <label><input type="radio" name="q3" value="C"> Não deixaria chegar nesse ponto, já teria reduzido risco bem antes.</label>
+              </div>
+
+              <div class="question-card hidden" data-index="3">
+                  <div class="question-tag">controle x delegar</div>
+                  <p>4. Sobre decidir onde investir:</p>
+                  <label><input type="radio" name="q4" value="D"> Gosto de tomar decisões fortes com apoio de dados e de quem entende.</label>
+                  <label><input type="radio" name="q4" value="I"> Gosto de discutir cenários, mas delego boa parte da execução.</label>
+                  <label><input type="radio" name="q4" value="S"> Prefiro delegar quase tudo, desde que eu entenda o básico.</label>
+                  <label><input type="radio" name="q4" value="C"> Preciso entender em detalhes antes de deixar qualquer coisa acontecer.</label>
+              </div>
+
+              <div class="question-card hidden" data-index="4">
+                  <div class="question-tag">prioridade de vida</div>
+                  <p>5. Hoje, qual é seu objetivo financeiro mais forte?</p>
+                  <label><input type="radio" name="q5" value="D"> Construir um patrimônio relevante, mesmo que isso exija risco alto.</label>
+                  <label><input type="radio" name="q5" value="I"> Crescer bem, mas sem viver 100% em modo adrenalina.</label>
+                  <label><input type="radio" name="q5" value="S"> Ter uma base sólida, que aguente sustos da vida.</label>
+                  <label><input type="radio" name="q5" value="C"> Proteger o que já conquistei e garantir o básico sempre.</label>
+              </div>
+
+              <div class="question-card hidden" data-index="5">
+                  <div class="question-tag">tempo</div>
+                  <p>6. Em relação a prazo, o que faz mais sentido pra você?</p>
+                  <label><input type="radio" name="q6" value="D"> Dinheiro que eu posso deixar 10, 15, 20 anos sem encostar.</label>
+                  <label><input type="radio" name="q6" value="I"> Uma parte de longo prazo e outra que posso mexer em 3–5 anos.</label>
+                  <label><input type="radio" name="q6" value="S"> Gosto de coisas entre 2 e 5 anos, não muito travadas.</label>
+                  <label><input type="radio" name="q6" value="C"> Prefiro prazos curtos e liquidez fácil.</label>
+              </div>
+
+              <div class="question-card hidden" data-index="6">
+                  <div class="question-tag">crise</div>
+                  <p>7. Em uma crise forte (política ou econômica), qual seria seu movimento natural?</p>
+                  <label><input type="radio" name="q7" value="D"> Estudo rápido e tento ser agressivo no meio do caos.</label>
+                  <label><input type="radio" name="q7" value="I"> Espero um pouco, vejo o cenário e posiciono com parcimônia.</label>
+                  <label><input type="radio" name="q7" value="S"> Quase sempre caminho para algo mais conservador.</label>
+                  <label><input type="radio" name="q7" value="C"> Saio de perto de qualquer coisa que oscila, sem pensar muito.</label>
+              </div>
+
+              <div class="question-card hidden" data-index="7">
+                  <div class="question-tag">sensação de ganho</div>
+                  <p>8. O que te dá mais sensação de “estou no caminho certo”?</p>
+                  <label><input type="radio" name="q8" value="D"> Ver grandes saltos no patrimônio em alguns anos.</label>
+                  <label><input type="radio" name="q8" value="I"> Ver a curva subindo acima do CDI, com alguma emoção.</label>
+                  <label><input type="radio" name="q8" value="S"> Ver uma linha relativamente estável, sem grandes sustos.</label>
+                  <label><input type="radio" name="q8" value="C"> Ver tudo previsível, quase como um salário extra mensal.</label>
+              </div>
+
+              <div class="question-card hidden" data-index="8">
+                  <div class="question-tag">histórico familiar</div>
+                  <p>9. A forma como sua família lidava com dinheiro te influencia como?</p>
+                  <label><input type="radio" name="q9" value="D"> Quero quebrar o padrão e construir algo muito maior.</label>
+                  <label><input type="radio" name="q9" value="I"> Misturo o que vi em casa com a minha leitura de mundo.</label>
+                  <label><input type="radio" name="q9" value="S"> Reproduzo muita coisa de cautela e proteção.</label>
+                  <label><input type="radio" name="q9" value="C"> Sinto medo de repetir erros e tento me proteger ao máximo.</label>
+              </div>
+
+              <div class="question-card hidden" data-index="9">
+                  <div class="question-tag">na prática</div>
+                  <p>10. Se estivesse com um assessor do seu lado, você diria:</p>
+                  <label><input type="radio" name="q10" value="D"> “Quero algo que realmente possa multiplicar, estou pronto pra isso.”</label>
+                  <label><input type="radio" name="q10" value="I"> “Quero algo forte, mas que eu consiga sustentar nas crises.”</label>
+                  <label><input type="radio" name="q10" value="S"> “Quero dormir bem e ver a coisa andar, mesmo que mais devagar.”</label>
+                  <label><input type="radio" name="q10" value="C"> “Quero o mínimo de risco possível, sem surpresas.”</label>
+              </div>
+
+              <div class="nav-buttons">
+                  <button type="button" class="btn-secondary hidden" id="prevBtn">← Voltar</button>
+                  <div class="nav-buttons-right">
+                      <button type="button" class="btn-primary" id="nextBtn">Próxima pergunta →</button>
+                  </div>
+              </div>
+          </form>
+
+          <div id="resultado" class="hidden"></div>
+      </div>
+  </div>
+</div>
+
+<footer>
+    <p>
+        Ferramenta educacional. O relatório completo é um produto digital com investimento de
+        <strong>R$ 49,97</strong> e não substitui uma análise individual e completa.
+    </p>
+</footer>
+
+<script>
+// ==========================
+// Configuração de alocação
+// ==========================
+const retornosClasse = {
+    'RF_Pós_BR': 0.09,
+    'RF_IPCA_BR': 0.10,
+    'Multimercado': 0.11,
+    'FIIs_BR': 0.10,
+    'Acoes_BR': 0.13,
+    'Acoes_Global': 0.12,
+    'Bonds_Global': 0.07,
+    'Alternativos': 0.15
+};
+
+function getCarteiraPorPerfil(perfil) {
+    if (perfil === 'D') {
+        return {
+            nome: "Arrojado",
+            resumoCurto: "Você aceita oscilações fortes em troca de chance real de multiplicar o patrimônio no longo prazo.",
+            volatilidadeAlvo: "volatilidade alvo da carteira acima de ~6% ao ano",
+            mix: [
+                { classe: "Renda Fixa Pós Brasil (Selic / CDB DI)", sigla: "RF_Pós_BR", peso: 0.10 },
+                { classe: "Renda Fixa IPCA+ Brasil (média/longa)", sigla: "RF_IPCA_BR", peso: 0.10 },
+                { classe: "Multimercados Brasil", sigla: "Multimercado", peso: 0.20 },
+                { classe: "FIIs / Imobiliário Brasil", sigla: "FIIs_BR", peso: 0.10 },
+                { classe: "Ações Brasil / ETFs", sigla: "Acoes_BR", peso: 0.25 },
+                { classe: "Ações Globais (EUA / mundo via ETFs)", sigla: "Acoes_Global", peso: 0.20 },
+                { classe: "Alternativos (ouro, cripto moderado, estratégias especiais)", sigla: "Alternativos", peso: 0.05 }
+            ]
+        };
+    }
+    if (perfil === 'I') {
+        return {
+            nome: "Moderado Agressivo",
+            resumoCurto: "Você equilibra bem: aceita risco acima da média, mas ainda precisa de um eixo de estabilidade.",
+            volatilidadeAlvo: "volatilidade alvo em torno de 4% a 6% ao ano",
+            mix: [
+                { classe: "Renda Fixa Pós Brasil", sigla: "RF_Pós_BR", peso: 0.20 },
+                { classe: "Renda Fixa IPCA+ Brasil", sigla: "RF_IPCA_BR", peso: 0.20 },
+                { classe: "Multimercados", sigla: "Multimercado", peso: 0.20 },
+                { classe: "FIIs / Imobiliário Brasil", sigla: "FIIs_BR", peso: 0.15 },
+                { classe: "Ações Brasil / ETFs", sigla: "Acoes_BR", peso: 0.15 },
+                { classe: "Ações Globais", sigla: "Acoes_Global", peso: 0.10 }
+            ]
+        };
+    }
+    if (perfil === 'S') {
+        return {
+            nome: "Moderado",
+            resumoCurto: "Você quer crescer o patrimônio, mas precisa enxergar estabilidade mínima pra seguir o plano.",
+            volatilidadeAlvo: "volatilidade alvo em torno de 2% a 4% ao ano",
+            mix: [
+                { classe: "Renda Fixa Pós Brasil", sigla: "RF_Pós_BR", peso: 0.30 },
+                { classe: "Renda Fixa IPCA+ Brasil", sigla: "RF_IPCA_BR", peso: 0.25 },
+                { classe: "Multimercados conservadores", sigla: "Multimercado", peso: 0.15 },
+                { classe: "FIIs / Imobiliário", sigla: "FIIs_BR", peso: 0.15 },
+                { classe: "Ações Brasil / ETFs", sigla: "Acoes_BR", peso: 0.10 },
+                { classe: "Ações Globais", sigla: "Acoes_Global", peso: 0.05 }
+            ]
+        };
+    }
+    if (perfil === 'C') {
+        return {
+            nome: "Conservador",
+            resumoCurto: "Seu foco é preservar capital e conseguir dormir tranquilo, mesmo em anos turbulentos.",
+            volatilidadeAlvo: "volatilidade alvo abaixo de ~2% ao ano",
+            mix: [
+                { classe: "Renda Fixa Pós (Selic / CDB DI)", sigla: "RF_Pós_BR", peso: 0.45 },
+                { classe: "Renda Fixa IPCA+ curta/média", sigla: "RF_IPCA_BR", peso: 0.25 },
+                { classe: "Multimercados bem conservadores", sigla: "Multimercado", peso: 0.10 },
+                { classe: "FIIs / Imobiliário de menor volatilidade", sigla: "FIIs_BR", peso: 0.10 },
+                { classe: "Bonds globais / caixa em moeda forte", sigla: "Bonds_Global", peso: 0.10 }
+            ]
+        };
+    }
+}
+
+function calcularRetornoMedio(carteira) {
+    let r = 0;
+    carteira.mix.forEach(item => {
+        const rClasse = retornosClasse[item.sigla] || 0;
+        r += item.peso * rClasse;
+    });
+    return r;
+}
+
+function simularBacktest(valorInicial, retornoMedio) {
+    const horizontes = [5, 10, 15, 20];
+    return horizontes.map(anos => {
+        const valorFinal = valorInicial * Math.pow(1 + retornoMedio, anos);
+        return { anos, valorFinal };
+    });
+}
+
+// ==========================
+// Lógica do quiz / UI
+// ==========================
+const startBtn = document.getElementById("startBtn");
+const quizSection = document.getElementById("quizSection");
+const progressFill = document.getElementById("progressFill");
+const stepLabel = document.getElementById("stepLabel");
+const stepHint = document.getElementById("stepHint");
+const perguntas = document.querySelectorAll(".question-card");
+const prevBtn = document.getElementById("prevBtn");
+const nextBtn = document.getElementById("nextBtn");
+const resultadoDiv = document.getElementById("resultado");
+
+let currentIndex = 0;
+
+startBtn.addEventListener("click", () => {
+    quizSection.classList.remove("hidden");
+    startBtn.classList.add("hidden");
+    updateStepUI();
+    quizSection.scrollIntoView({ behavior: "smooth", block: "start" });
+});
+
+prevBtn.addEventListener("click", () => {
+    if (currentIndex > 0) {
+        perguntas[currentIndex].classList.add("hidden");
+        currentIndex--;
+        perguntas[currentIndex].classList.remove("hidden");
+        updateStepUI();
+    }
+});
+
+nextBtn.addEventListener("click", () => {
+    const qName = "q" + (currentIndex + 1);
+    const checked = document.querySelector(`input[name="${qName}"]:checked`);
+    if (!checked) {
+        alert("Responde essa aqui antes de seguir, é rápido 🙂");
+        return;
+    }
+
+    if (currentIndex < perguntas.length - 1) {
+        perguntas[currentIndex].classList.add("hidden");
+        currentIndex++;
+        perguntas[currentIndex].classList.remove("hidden");
+        updateStepUI();
+    } else {
+        calcularPerfil();
+    }
+});
+
+function updateStepUI() {
+    const total = perguntas.length;
+    stepLabel.textContent = `Pergunta ${currentIndex + 1} de ${total}`;
+    const perc = ((currentIndex) / total) * 100;
+    progressFill.style.width = `${perc}%`;
+
+    const hints = [
+        "Responda como você é hoje, não como gostaria de ser.",
+        "Pensa em situações reais que você já viveu com dinheiro.",
+        "Não tem resposta certa: tem o que funciona pra você.",
+        "Lembra: o objetivo aqui é construir uma carteira que você aguenta.",
+        "Se tiver dúvida entre duas alternativas, escolhe a mais honesta.",
+        "Pensa em como você reagiu nas últimas crises de mercado.",
+        "Se fosse hoje, com sua vida atual, o que você faria?",
+        "Leva em conta sono, família, trabalho, tudo junto.",
+        "Sinceridade aqui evita decisões ruins lá na frente.",
+        "Última! Vai ser útil pra caramba na conversa sobre investimentos."
+    ];
+    stepHint.textContent = hints[currentIndex] || "Responda com sinceridade.";
+
+    if (currentIndex === 0) {
+        prevBtn.classList.add("hidden");
+    } else {
+        prevBtn.classList.remove("hidden");
+    }
+
+    if (currentIndex === perguntas.length - 1) {
+        nextBtn.textContent = "Ver meu perfil →";
+    } else {
+        nextBtn.textContent = "Próxima pergunta →";
+    }
+}
+
+function calcularPerfil() {
+    const total = perguntas.length;
+    const respostas = document.querySelectorAll("input[type=radio]:checked");
+    if (respostas.length < total) {
+        alert("Responda todas as perguntas para ver seu perfil.");
+        return;
+    }
+
+    let score = { D:0, I:0, S:0, C:0 };
+    respostas.forEach(r => score[r.value]++);
+
+    let perfilKey = Object.keys(score).reduce((a,b) => score[a] > score[b] ? a : b);
+    let carteira = getCarteiraPorPerfil(perfilKey);
+
+    const valorInicial = 100000;
+    const retornoMedio = calcularRetornoMedio(carteira);
+    const backtest = simularBacktest(valorInicial, retornoMedio);
+
+    const relatorio = {
+        perfilCodigo: perfilKey,
+        perfilNome: carteira.nome,
+        resumoCurto: carteira.resumoCurto,
+        volatilidadeAlvo: carteira.volatilidadeAlvo,
+        carteiraSugerida: carteira.mix,
+        retornoMedioEstimado: retornoMedio,
+        backtestSimulado: backtest,
+        precoProduto: 49.97
+    };
+
+    const tituloPerfil = (() => {
+        if (perfilKey === "D") return "Perfil Arrojado 🚀";
+        if (perfilKey === "I") return "Perfil Moderado Agressivo ⚖️🔥";
+        if (perfilKey === "S") return "Perfil Moderado 🌱";
+        if (perfilKey === "C") return "Perfil Conservador 🛟";
+        return "Seu perfil";
+    })();
+
+    const comoVocêÉ = (() => {
+        if (perfilKey === "D") return [
+            "Você não trava na primeira queda. Entende que volatilidade é o preço de oportunidades maiores.",
+            "Tende a ser decidido(a): ajusta rota, mas não entra em pânico à toa.",
+            "Com a carteira certa, risco vira estratégia – não pesadelo."
+        ];
+        if (perfilKey === "I") return [
+            "Você aceita risco, mas precisa ver sentido e coerência na estratégia.",
+            "Oscilações incomodam, mas você não quer abrir mão de crescer acima da média.",
+            "Uma carteira híbrida (parte estável, parte agressiva) tende a funcionar muito bem pra você."
+        ];
+        if (perfilKey === "S") return [
+            "Você quer crescer, mas não banca ver o patrimônio indo de montanha-russa.",
+            "Abre mão de um pedaço do ganho máximo em troca de uma jornada mais estável.",
+            "Carteiras com renda fixa forte, multimercados calmos e uma pitada de renda variável casam bem com seu perfil."
+        ];
+        if (perfilKey === "C") return [
+            "Você valoriza preservação de capital acima de tudo.",
+            "Seu foco está em não deixar grandes sustos roubarem sua paz, mesmo que isso signifique crescer mais devagar.",
+            "Carteiras mais agressivas te levariam a decisões impulsivas – o que mata qualquer estratégia boa no papel."
+        ];
+        return [];
+    })();
+
+    const bulletsHTML = comoVocêÉ.map(txt => `<li>${txt}</li>`).join("");
+
+    resultadoDiv.classList.remove("hidden");
+    resultadoDiv.innerHTML = `
+        <div class="perfil-tag">resultado do seu dna do investidor</div>
+        <h2>${tituloPerfil}</h2>
+        <p class="resumo">
+            ${carteira.resumoCurto}
+        </p>
+
+        <h3>O que isso diz sobre você na prática</h3>
+        <ul class="bulletinho">
+            ${bulletsHTML}
+        </ul>
+
+        <h3>E a carteira, onde entra?</h3>
+        <p class="resumo">
+            Com base nesse perfil, existe um modelo de carteira que mistura ativos do Brasil e do exterior
+            (renda fixa, multimercados, FIIs, ações Brasil, ações globais e alternativos), alinhado ao seu limite
+            real de volatilidade. Nada de chute: a ideia é montar algo que você consiga sustentar nos bons e maus momentos.
+        </p>
+        <p class="resumo">
+            Em vez de despejar tudo aqui na tela, eu transformei isso em um
+            <strong>relatório digital completo</strong>, que você consegue guardar, reler e usar na conversa sobre seus investimentos.
+        </p>
+        <ul class="bulletinho">
+            <li>Resumo do seu perfil em linguagem simples;</li>
+            <li>Mix sugerido de classes de ativos por faixa de risco;</li>
+            <li>Simulação hipotética de 5, 10, 15 e 20 anos com retornos médios por classe;</li>
+            <li>Pontos de atenção pra você não sabotar a própria estratégia nas crises.</li>
+        </ul>
+
+        <div class="email-block">
+            <p>
+                <strong>Quer receber o link para esse relatório completo?</strong><br>
+                Eu vou te enviar por e-mail a página com todos os detalhes do seu DNA do Investidor
+                e a opção de liberar o relatório por <strong>R$ 49,97</strong>.
+            </p>
+            <p class="email-hint">
+                Funciona assim: você deixa seu e-mail, eu te mando o link com a explicação do relatório
+                e o botão de pagamento. Depois da confirmação, você recebe o acesso ao conteúdo completo.
+            </p>
+
+            <form id="emailForm" method="POST" action="https://formspree.io/f/xeovoyqj">
+                <!-- envia também o relatório em JSON -->
+                <input type="hidden" name="relatorio_json" id="relatorioJson">
+
+                <div class="email-row">
+                    <div>
+                        <label for="nomeCliente">Nome</label>
+                        <input type="text" id="nomeCliente" name="nome" placeholder="Como você prefere ser chamado(a)?">
+                    </div>
+                    <div>
+                        <label for="emailCliente">E-mail</label>
+                        <input type="email" id="emailCliente" name="email" placeholder="seuemail@exemplo.com">
+                    </div>
+                    <button type="submit" class="btn-primary">
+                        Quero receber o link do meu relatório →
+                    </button>
+                </div>
+                <div class="email-hint">
+                    Nada de spam: é um produto pontual de R$ 49,97. Se não fizer sentido pra você, é só ignorar o link.
+                </div>
+                <div class="ok-message" id="okMessage">
+                    Enviando seus dados… se algo der errado no envio, você vai perceber pela ausência do e-mail. 🙂
+                </div>
+            </form>
+        </div>
+    `;
+
+    const hiddenInput = document.getElementById("relatorioJson");
+    if (hiddenInput) hiddenInput.value = JSON.stringify(relatorio);
+
+    const emailForm = document.getElementById("emailForm");
+    const okMsg = document.getElementById("okMessage");
+    const nomeField = document.getElementById("nomeCliente");
+    const emailField = document.getElementById("emailCliente");
+
+    emailForm.addEventListener("submit", function(e) {
+        // validação básica
+        if (!nomeField.value || !emailField.value) {
+            e.preventDefault();
+            alert("Preenche nome e e-mail pra eu conseguir te responder 🙂");
+            return;
+        }
+
+        const action = emailForm.getAttribute("action");
+        if (!action || action === "#") {
+            e.preventDefault();
+            alert("Formulário ainda não está conectado a um endpoint de envio.");
+            return;
+        }
+
+        if (okMsg) okMsg.style.display = "block";
+        // depois daqui o navegador envia pro Formspree normalmente
+    });
+
+    resultadoDiv.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+</script>
+
+</body>
+</html>
